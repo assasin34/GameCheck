@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Image Grid</title>
+    <style>
+
+        body {
+        background-color: #555555;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+        }
+        .grid-item {
+            padding: 20px;
+            text-align: center;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+    
+        .modal-content {
+            background-color: #99b7cf;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            overflow: auto; /* Allow content to scroll if needed */
+        }
+    
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    
+        /* Style for images within the description */
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Center the images */
+            margin: 0 auto;
+            margin-bottom: 10px; /* Add space between images */
+        }
+    </style>
+</head>
+<body>
+    <p style="text-align: center;"><span style="font-size: 60px;">Steam Store Viewer</span></p>
+    <hr>
+    
+    <div class="grid-container">
+        {% if image_urls %}
+            {% for item in image_urls %}
+                <div class="grid-item">
+                    <img src="{{ item.url }}" alt="Game Image" onclick="openModal('{{ item.url }}', '{{ item.steam_url }}')">
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div id="gameDescription" class="modal-content">
+            <span class="close">&times;</span>
+        </div>
+    </div>
+
+    <script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+// Function to open the modal
+function openModal(imageUrl, steamUrl) {
+    modal.style.display = "block";
+    var descriptionElement = document.getElementById("gameDescription");
+    
+    // Fetch game description from the server
+    fetch('/get_description?url=' + encodeURIComponent(steamUrl))
+    .then(response => response.text())
+    .then(description => {
+        descriptionElement.innerHTML = description;
+    })
+    .catch(error => {
+        console.error('Error fetching game description:', error);
+        });
+    }
+
+    // Close the modal when clicking on the close button (x)
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
+</body>
+</html>
