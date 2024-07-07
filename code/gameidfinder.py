@@ -39,7 +39,7 @@ else:
             game_names = input("Enter the game names (separated by commas): ").lower().split(",")
     else:
         # Ask the user for manual input of game names
-        game_names = input("Enter the game names (separated by commas): ").lower().split(",")
+        game_names = input("Enter the game names manually (separated by commas): ").lower().split(",")
 
 for game_name in game_names:
     if game_name in game_data:

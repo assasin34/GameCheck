@@ -14,6 +14,9 @@ def animate_print(text):    # Function to animate text
             print(char, end='', flush=True)
             sleep(0.001)
 
+def install_requirements():
+    subprocess.call(['pip', 'install', '-r', './code/requirements.txt'])
+
 def launcher():
 
     animate_print(f"""
@@ -33,10 +36,13 @@ Start by choosing the program you want to open:
 2. GameIdFinder for creating a TXT file containing links to the Steam store 
    using only the names of the games 
    (Put the game names into games.txt file or input manually)
+                  
+3. Install all required modules
+   (Highly recommended if its your first time using this program)
     """)
 
 
-    question = input("\nEnter 1 or 2: ")
+    question = input("\nEnter 1, 2 or 3: ")
 
     if question == "1":
         clear_terminal()
@@ -52,10 +58,13 @@ Enter 1 or 2: """)
             clear_terminal()
             subprocess.call(['python', webmanual_path])
         else:
-            print("Invalid input. Please enter 1 or 2.")
+            print("Invalid input. Please enter 1, 2 or 3.")
     elif question == "2":
         clear_terminal()
         subprocess.call(['python', gameid_path])
+    elif question == "3":
+        clear_terminal()
+        install_requirements()
     else:
         print("Invalid input. Please enter 1 or 2.")
 
