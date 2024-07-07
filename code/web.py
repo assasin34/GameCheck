@@ -61,7 +61,7 @@ def animate_print(text):    # Function to animate text
 def index():
     image_urls = []
     
-    with open('links.txt', 'r') as file:
+    with open('links.txt', 'r', encoding='utf-8') as file:
         for line in file:
             url = line.split(' ')[0]  # Extract the URL part before the space
             image_url = get_game_image(url.strip())
